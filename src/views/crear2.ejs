@@ -1,0 +1,26 @@
+<html lang="es">
+<head>
+    <link rel="stylesheet" href="/css/etilos.css">
+    <title>Crear</title>
+    <%- include('partials/head.ejs') %>
+</head>
+<body>
+    
+      <div class="container mt-4">     
+            <div class="card border-secondary">  
+                <div class="card-header">Nuevo Profesor</div>
+                <div class="card-body">
+                    <form id="miForm" action="/savePruebas" method="post">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">datos</label>
+                            <input type="text" autocomplete="off" class="form-control" id="prueba" name="prueba" tabindex="1" required>
+                        </div>
+                        
+                        <button id="submit-btn" type="submit" class="btn btn-primary" tabindex="5">Guardar</button>
+                        <a href="/guardar" class="btn btn-secondary">Cancelar</a>
+                    </form>
+                </div>
+            </div>        
+      </div>
+</body>
+</html>
