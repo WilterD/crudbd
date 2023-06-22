@@ -8,15 +8,13 @@
 -- nombre del profesor.
 
 SELECT
-  CedulaProf, 
-  nombreP, 
-  FechaIng
-FROM 
+  CedulaProf, FechaIng, nombreP
+FROM
   PROFESORES
 WHERE (
-  (EXTRACT(YEAR FROM FechaIng) = (EXTRACT(YEAR FROM CURRENT_DATE) - 1)) 
-    AND
-  (categoria = 'I' AND dedicacion = 'MT')
+  (dedicacion = 'MT' AND categoria = 'I')
+  AND
+  (DATE_PART('year', CURRENT_DATE) - 1 = DATE_PART('year', FechaIng))
 )
 ORDER BY
   FechaIng,
@@ -28,15 +26,13 @@ ORDER BY
 -- por nombre del profesor.
 
 SELECT 
-  p.CedulaProf, 
-  p.nombreP
+  PROFESORES.CedulaProf, PROFESORES.nombreP
 FROM 
-  PROFESORES p
-  INNER JOIN SECCIONES s ON p.CedulaProf = s.CedulaProf
-  INNER JOIN ASIGNATURA a ON s.CodAsignatura = a.CodAsignatura
-WHERE (a.NombreAsig = 'Base de Datos I' AND s.Lapso = '202325')
+  PROFESORES
+  INNER JOIN SECCIONES ON PROFESORES.CedulaProf = SECCIONES.CedulaProf
+  INNER JOIN ASIGNATURA ON SECCIONES.CodAsignatura = ASIGNATURA.CodAsignatura
+WHERE (ASIGNATURA.NombreAsig = 'Bases de datos' AND SECCIONES.Lapso = '202325')
 ORDER BY nombreP;
-
 
 -- ENUNCIADO 4:
 -- Listar, para cada Escuela, la cantidad de estudiantes activos, no inscritos y
@@ -46,18 +42,19 @@ ORDER BY nombreP;
 -- de mayor a menor.
 
 SELECT
-  esc.CodEscuela,
-  esc.NombreEsc,
-  COUNT(CASE WHEN est.StatusEst IN ('Activo') THEN 1 END) activos, 
-  COUNT(CASE WHEN est.StatusEst IN ('Retirado') THEN 1 END) retirados,
-  COUNT(CASE WHEN est.StatusEst IN ('No inscrito') THEN 1 END) noInscritos,
-  COUNT(CASE WHEN est.StatusEst IN ('Activo', 'No inscrito', 'Retirado') THEN 1 END) total
+  ESCUELA.CodEscuela, ESCUELA.NombreEsc,
+  COUNT(CASE WHEN ESTUDIANTES.StatusEst IN ('Activo') THEN 1 END) activos, 
+  COUNT(CASE WHEN ESTUDIANTES.StatusEst IN ('No inscrito') THEN 1 END) noInscritos,
+  COUNT(CASE WHEN ESTUDIANTES.StatusEst IN ('Retirado') THEN 1 END) retirados,
+  COUNT(CASE WHEN ESTUDIANTES.StatusEst IN ('Egresado') THEN 1 END) egresado,
+  COUNT(*) total
 FROM 
-  ESCUELA esc
-  LEFT JOIN ESTUDIANTES est ON esc.CodEscuela = est.CodEscuela
-GROUP BY 
-  esc.CodEscuela,
-  esc.NombreEsc
+  ESCUELA, ESTUDIANTES
+WHERE
+   ESCUELA.CodEscuela = ESTUDIANTES.CodEscuela
+GROUP BY
+  ESCUELA.CodEscuela,
+  ESCUELA.NombreEsc
 ORDER BY total DESC;
 
 -- ENUNCIADO 5:
@@ -66,26 +63,23 @@ ORDER BY total DESC;
 -- el nombre de la asignatura y la calificación obtenida. Debe ordenar el listado por Id
 -- del estudiante.
 
-SELECT 
-  est.IdEstudiante,
-  est.NombreEst,
-  asg.NombreAsig,
-  cal.Calificacion
+SELECT
+  E.IdEstudiante, E.NombreEst, ASIGN.NombreAsig, CAL.Calificacion
 FROM 
-  ESTUDIANTES est
-  INNER JOIN CALIFICACIONES cal ON est.IdEstudiante = cal.IdEstudiante
-  INNER JOIN SECCIONES sec ON cal.NRC = sec.NRC
-  INNER JOIN ASIGNATURA asg ON sec.CodAsignatura = asg.CodAsignatura
+  ESTUDIANTES E
+  INNER JOIN CALIFICACIONES CAL ON E.IdEstudiante = CAL.IdEstudiante
+  INNER JOIN SECCIONES SECC ON CAL.NRC = SECC.NRC
+  INNER JOIN ASIGNATURA ASIGN ON SECC.CodAsignatura = ASIGN.CodAsignatura
 WHERE 
-  sec.Lapso = (
+  SECC.Lapso = (
     SELECT DISTINCT Lapso 
     FROM 
       SECCIONES 
     ORDER BY Lapso DESC 
     LIMIT 1 OFFSET 1
   ) AND 
-  asg.Taxonomia = 'TA9' AND cal.EstatusN IN ('R')
-ORDER BY est.IdEstudiante;
+  ASIGN.Taxonomia = 'TA9' AND CAL.EstatusN IN ('R')
+ORDER BY E.IdEstudiante;
 
 -- ENUNCIADO 6:
 -- Listar las asignaturas (Código, Nombre y Semestre) 
@@ -93,9 +87,7 @@ ORDER BY est.IdEstudiante;
 -- El listado debe estar ordenado por semestre y la cantidad de estudiantes, ambos en forma descendente.
 
 SELECT 
-  asg.CodAsignatura,
-  asg.NombreAsig,
-  asg.Semestre,
+  asg.CodAsignatura, asg.NombreAsig, asg.Semestre,
   COUNT(CASE WHEN cal.EstatusN = 'A' THEN 1 END) cantidadAprobados
 FROM ASIGNATURA asg
 LEFT JOIN SECCIONES sec ON asg.CodAsignatura = sec.CodAsignatura
@@ -115,8 +107,7 @@ ORDER BY
 -- estudiante, total de asignaturas cursadas, total de asignaturas reprobadas ordenados por total de asignaturas reprobadas en forma descendente.
 
 SELECT 
-  est.IdEstudiante, 
-  est.NombreEst,
+  est.IdEstudiante, est.NombreEst,
   COUNT(DISTINCT sec.CodAsignatura) asignaturas_cursadas,
   COUNT(
     DISTINCT CASE WHEN cal.EstatusN = 'R' THEN sec.CodAsignatura ELSE NULL END
