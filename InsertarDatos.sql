@@ -1,14 +1,3 @@
-insertar datos 
-
-INSERT INTO PROFESORES (CedulaProf, nombreP, DireccionP, TelefonoP, Categoria, Dedicacion, FechaIng, FechaEgr, StatusP)
-VALUES ('123456789', 'Juan Pérez', 'Calle 123', '555-1234', 'A', 'TC', '2020-01-01', '2025-12-31', 'A');
-
-INSERT INTO PROFESORES (CedulaProf, nombreP, DireccionP, TelefonoP, Categoria, Dedicacion, FechaIng, FechaEgr, StatusP)
-VALUES ('987654321', 'María Gómez', 'Avenida 456', '555-5678', 'I', 'MT', '2019-05-10', '2024-12-31', 'R');
-
-INSERT INTO PROFESORES (CedulaProf, nombreP, DireccionP, TelefonoP, Categoria, Dedicacion, FechaIng, FechaEgr, StatusP)
-VALUES ('111222333', 'Pedro López', 'Plaza 789', '555-1234', 'G', 'TV', '2022-03-15', '2024-12-31', 'P');
-
 INSERT INTO PROFESORES (CedulaProf, nombreP, DireccionP, TelefonoP, Categoria, Dedicacion, FechaIng, FechaEgr, StatusP) 
 VALUES 
     ('1234567890', 'Juan PErez', 'Calle 123', '555-5555', 'A', 'TC', '2011-12-31', '2022-12-31', 'P'),
@@ -96,7 +85,17 @@ VALUES (1, '12431', 14, 'A'),
        (6, '13456', 12, 'A'),
        (7, '13457', 12, 'A'),
        (8, '13458', 12, 'R'),
-       (9, '13459', 18, 'E');
+       (9, '13459', 18, 'E'),
+       (10, '12431', 8, 'A'),
+       (10, '12453', 6, 'A'),
+       (10, '19323', 5, 'A'),
+       (10, '13454', 9, 'A'),
+       (10, '13455', 8, 'A'),
+       (11, '12431', 8, 'A'),
+       (11, '12453', 4, 'A'),
+       (11, '19323', 5, 'A'),
+       (11, '13454', 7, 'A'),
+       (11, '13455', 8, 'A'),
 
 
 ---------
