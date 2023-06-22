@@ -63,7 +63,7 @@ VALUES ('COD1', 'San Agustin', '2021-01-01'),
 
 INSERT INTO ESTUDIANTES (IdEstudiante,Cedula, NombreEst, CodEscuela, DireccionEst, TelefonoEst, FechaNac, StatusEst)
 VALUES (1,'28339421', 'Luis Hernandez', 'COD1', 'Unare 2', '5555555555', '2004-03-03', 'Egresado'),
-       (2,'28339452', 'Alejandro Rosas', 'COD1', 'Caujaro', '5555555555', '2005-03-03', 'No Inscrito'),
+       (2,'28339452', 'Alejandro Rosas', 'COD1', 'Caujaro', '5555555555', '2005-03-03', 'No inscrito'),
        (3,'28339453', 'Wiston Diaz', 'COD2', 'Caujaro', '5555555555', '2006-03-03', 'Retirado'),
        (4,'28339454', 'Hector Garcia', 'COD2', 'Caujaro', '5555555555', '2001-03-03', 'Activo'),
        (5,'28339455', 'Jesus Ortiz', 'COD2', 'Alta Vista', '5555555555', '2002-03-03', 'Activo'),
