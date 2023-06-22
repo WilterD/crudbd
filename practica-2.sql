@@ -107,22 +107,22 @@ ORDER BY
 -- estudiante, total de asignaturas cursadas, total de asignaturas reprobadas ordenados por total de asignaturas reprobadas en forma descendente.
 
 SELECT 
-  est.IdEstudiante, est.NombreEst,
-  COUNT(DISTINCT sec.CodAsignatura) asignaturas_cursadas,
+  ESTUDIANTES.IdEstudiante, ESTUDIANTES.NombreEst,
+  COUNT(DISTINCT SECCIONES.CodAsignatura) asignaturas_cursadas,
   COUNT(
-    DISTINCT CASE WHEN cal.EstatusN = 'R' THEN sec.CodAsignatura ELSE NULL END
+    DISTINCT CASE WHEN CALIFICACIONES.EstatusN = 'R' THEN SECCIONES.CodAsignatura ELSE NULL END
   ) AsignaturasReprobadas
 FROM 
-  ESTUDIANTES est
-  INNER JOIN calificaciones cal ON est.IdEstudiante = cal.IdEstudiante
-  INNER JOIN secciones sec ON cal.NRC = sec.NRC
+  ESTUDIANTES
+  INNER JOIN CALIFICACIONES ON ESTUDIANTES.IdEstudiante = CALIFICACIONES.IdEstudiante
+  INNER JOIN SECCIONES ON CALIFICACIONES.NRC = SECCIONES.NRC
 GROUP BY 
-  est.IdEstudiante,
-  est.NombreEst
+  ESTUDIANTES.IdEstudiante,
+  ESTUDIANTES.NombreEst
 HAVING (
-  COUNT(DISTINCT sec.Lapso) > 10
+  COUNT(DISTINCT SECCIONES.Lapso) > 10
   AND 
-  COUNT(DISTINCT CASE WHEN cal.EstatusN = 'R' THEN sec.CodAsignatura ELSE NULL END) > 5
+  COUNT(DISTINCT CASE WHEN CALIFICACIONES.EstatusN = 'R' THEN SECCIONES.CodAsignatura ELSE NULL END) > 5
 )
 ORDER BY AsignaturasReprobadas DESC;
 
