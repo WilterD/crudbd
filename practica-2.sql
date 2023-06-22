@@ -117,8 +117,7 @@ WHERE CedulaProf NOT IN ( SELECT CedulaProf FROM SECCIONES WHERE Lapso = '202325
 -- a 10 años, manteniendo la consistencia de la base de datos, y registrando todos los
 -- datos contenidos en la tabla Profesores, en un archivo histórico denominado HistoricoProfesor.
 
-BEGIN:
-
+BEGIN;
   -- INSERTAR PROFESOR BORRADO PARA SUSTITUIR A LOS PROFESORES QUE SALGAN DE LA BD
   INSERT INTO PROFESORES (CedulaProf, nombreP, DireccionP, TelefonoP, Categoria, Dedicacion, FechaIng, FechaEgr, StatusP)
   VALUES ('000000000', 'Profesor Borrado', '', '', 'T', 'TV', '1980-1-1', NOW() - INTERVAL '10 YEARS', 'R');
@@ -142,7 +141,8 @@ BEGIN:
   );
 
   -- Mete todo lo de profesores que cumpla los parametros en historico de profesor
-  INSERT INTO HistoricoProfesor SELECT * FROM PROFESORES WHERE StatusP = 'R' AND FechaEgr < NOW() - INTERVAL '10 YEARS' AND PROFESORES.CedulaProf != '000000000';
+  INSERT INTO HistoricoProfesor SELECT * FROM PROFESORES WHERE StatusP = 'R' AND FechaEgr < NOW() - INTERVAL '10 YEARS' 
+  AND PROFESORES.CedulaProf != '000000000';
 
   -- En seccoines pone el profesor borrado en las secciones que no tengan profesor
   UPDATE SECCIONES
@@ -155,5 +155,4 @@ BEGIN:
 
   -- Elimina los profesores que cumplan los parametros
   DELETE FROM PROFESORES WHERE StatusP = 'R' AND FechaEgr < NOW() - INTERVAL '10 YEARS' AND PROFESORES.CedulaProf != '000000000';
-
 COMMIT;
