@@ -1,7 +1,10 @@
--- (2)
--- Listar los profesores que ingresaron el año pasado, con categoría “Instructor” a
--- dedicación “Medio Tiempo”.. El listado debe contener : Cédula, Nombre del profesor
--- y fecha de ingreso y debe estar ordenado ascendentemente por fecha de ingreso y
+
+-- ENUNCIADO 2:
+-- Listar los profesores 
+-- que ingresaron el año pasado, con categoría “Instructor” a dedicación “Medio Tiempo”..
+-- El listado debe contener : Cédula, Nombre del profesor
+-- y fecha de ingreso y debe estar 
+-- ordenado ascendentemente por fecha de ingreso y
 -- nombre del profesor.
 
 SELECT
@@ -19,7 +22,7 @@ ORDER BY
   FechaIng,
   nombreP;
 
--- (3)
+-- ENUNCIADO 3:
 -- Listar los profesores (Cédula y Nombre) que han dictado una asignatura de nombre
 -- dado, en un lapso también dado. El listado debe estar ordenado ascendentemente
 -- por nombre del profesor.
@@ -34,7 +37,8 @@ FROM
 WHERE (a.NombreAsig = 'Base de Datos I' AND s.Lapso = '202325')
 ORDER BY nombreP;
 
--- (4)
+
+-- ENUNCIADO 4:
 -- Listar, para cada Escuela, la cantidad de estudiantes activos, no inscritos y
 -- retirados. El listado debe contener el código y nombre de la Escuela así como
 -- cantidad de activos, no inscritos y retirados, y un total general de estudiantes (suma
@@ -56,7 +60,7 @@ GROUP BY
   esc.NombreEsc
 ORDER BY total DESC;
 
--- (5)
+-- ENUNCIADO 5:
 -- Listar los estudiantes que hayan cursado alguna asignatura de Taxonomía 9 el lapso
 -- pasado y la hayan reprobado. El listado debe contener el Id y Nombre del estudiante,
 -- el nombre de la asignatura y la calificación obtenida. Debe ordenar el listado por Id
@@ -82,11 +86,11 @@ WHERE
   ) AND 
   asg.Taxonomia = 'TA9' AND cal.EstatusN IN ('R')
 ORDER BY est.IdEstudiante;
-  
--- (6)
--- Listar las asignaturas (Código, Nombre y Semestre) que ya están eliminada del
--- catálogo y la cantidad de estudiantes que la aprobaron. El listado debe estar
--- ordenado por semestre y la cantidad de estudiantes, ambos en forma descendente.
+
+-- ENUNCIADO 6:
+-- Listar las asignaturas (Código, Nombre y Semestre) 
+-- que ya están eliminada del catálogo y la cantidad de estudiantes que la aprobaron. 
+-- El listado debe estar ordenado por semestre y la cantidad de estudiantes, ambos en forma descendente.
 
 SELECT 
   asg.CodAsignatura,
@@ -105,11 +109,10 @@ ORDER BY
   Semestre DESC, 
   cantidadAprobados DESC;
 
--- (7)
+-- ENUNCIADO 7:
 -- Liste los estudiantes activos que hayan reprobado más de 5 asignaturas distintas y
 -- que tengan más de 5 años de estudios. La salida debe mostrar : Id, nombre de
--- estudiante, total de asignaturas cursadas, total de asignaturas reprobadas ,
--- ordenados por total de asignaturas reprobadas en forma descendente.
+-- estudiante, total de asignaturas cursadas, total de asignaturas reprobadas ordenados por total de asignaturas reprobadas en forma descendente.
 
 SELECT 
   est.IdEstudiante, 
@@ -132,10 +135,9 @@ HAVING (
 )
 ORDER BY asignaturas_reprobadas DESC;
 
--- (8)
+-- ENUNCIADO 8:
 -- Actualizar el Estatus del profesor a “Retirado” y la fecha de egreso con “31-03-2023”,
--- si no tiene carga académica (no tiene asignada al menos un NRC) en el lapso 2023-
--- 25.
+-- si no tiene carga académica (no tiene asignada al menos un NRC) en el lapso 202325.
 
 UPDATE PROFESORES
 SET 
@@ -153,11 +155,10 @@ WHERE (
   FechaEgr IS NULL 
 );
 
--- (9)
--- Eliminar los Profesores cuya Estatus sea “Retirado” y la fecha de egreso sea mayor
--- a 10 años, manteniendo la consistencia de la base de datos, y registrando todos los
--- datos contenidos en la tabla Profesores, en un archivo histórico denominado
--- HistoricoProfesor.   
+-- ENUNCIADO 9:
+-- Eliminar los Profesores cuya Estatus sea “Retirado” y la fecha de egreso sea mayor a 10 años, 
+-- manteniendo la consistencia de la base de datos, y registrando todos los datos contenidos 
+-- en la tabla Profesores, en un archivo histórico denominado HistoricoProfesor.   
 
 BEGIN;
 
