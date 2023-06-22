@@ -31,6 +31,7 @@
                         <th>Fecha de ingreso</th>
                         <th>Fecha de egreso</th>
                         <th>Status</th>
+                        <th>Acción</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -46,7 +47,7 @@
                     <td><%= profesor.fechaegr %></td>
                     <td><%= profesor.statusp %></td>
                     <td>
-                        <a href="/editar/<%= profesor.cedulaprof %>" class="btn btn-outline-info"><i class='bx bxs-pencil fs-5'></i></a>
+                        <a href="/editarProfesor/<%= profesor.cedulaprof %>" class="btn btn-outline-info"><i class='bx bxs-pencil fs-5'></i></a>
                         <a onclick="confirmar('/borrarProfe','<%= profesor.cedulaprof %>')" class="btn btn-outline-danger">
                             <i class='bx bxs-trash'></i></a>
                     </td>
