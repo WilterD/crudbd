@@ -63,42 +63,40 @@ ORDER BY total DESC;
 -- el nombre de la asignatura y la calificación obtenida. Debe ordenar el listado por Id
 -- del estudiante.
 
-SELECT
-  E.IdEstudiante, E.NombreEst, ASIGN.NombreAsig, CAL.Calificacion
-FROM 
-  ESTUDIANTES E
-  INNER JOIN CALIFICACIONES CAL ON E.IdEstudiante = CAL.IdEstudiante
-  INNER JOIN SECCIONES SECC ON CAL.NRC = SECC.NRC
-  INNER JOIN ASIGNATURA ASIGN ON SECC.CodAsignatura = ASIGN.CodAsignatura
-WHERE 
-  SECC.Lapso = (
-    SELECT DISTINCT Lapso 
-    FROM 
-      SECCIONES 
-    ORDER BY Lapso DESC 
-    LIMIT 1 OFFSET 1
-  ) AND 
+SELECT 
+  E.IdEstudiante, E.NombreEst, MIN(CAL.Calificacion), MIN(ASIGN.NombreAsig)
+FROM
+  ESTUDIANTES E, CALIFICACIONES CAL, SECCIONES SECC, ASIGNATURA ASIGN
+WHERE
   ASIGN.Taxonomia = 'TA9' AND CAL.EstatusN IN ('R')
+  AND E.IdEstudiante = CAL.IdEstudiante
+  AND CAL.NRC = SECC.NRC
+  AND SECC.CodAsignatura = ASIGN.CodAsignatura
+  AND SECC.Lapso = '202225'
+GROUP BY E.IdEstudiante, E.NombreEst
 ORDER BY E.IdEstudiante;
 
 -- ENUNCIADO 6:
 -- Listar las asignaturas (Código, Nombre y Semestre) 
--- que ya están eliminada del catálogo y la cantidad de estudiantes que la aprobaron. 
--- El listado debe estar ordenado por semestre y la cantidad de estudiantes, ambos en forma descendente.
+-- que ya están eliminada del catálogo y la cantidad de 
+-- estudiantes que la aprobaron. 
+-- El listado debe estar ordenado por semestre y la cantidad de estudiantes
+-- ambos en forma descendente.
 
-SELECT 
-  asg.CodAsignatura, asg.NombreAsig, asg.Semestre,
-  COUNT(CASE WHEN cal.EstatusN = 'A' THEN 1 END) cantidadAprobados
-FROM ASIGNATURA asg
-LEFT JOIN SECCIONES sec ON asg.CodAsignatura = sec.CodAsignatura
-LEFT JOIN CALIFICACIONES cal ON sec.NRC = cal.NRC
-WHERE asg.StatusA = 'E'
+SELECT
+  ASG.CodAsignatura, ASG.NombreAsig, ASG.Semestre,
+  COUNT(CASE WHEN CAL.EstatusN IN ('A') THEN 1 END) cantidadAprobados
+FROM ASIGNATURA ASG, CALIFICACIONES cal, SECCIONES
+WHERE 
+  ASG.CodAsignatura = SECCIONES.CodAsignatura
+  AND SECCIONES.NRC = cal.NRC
+  AND ASG.StatusA = 'E'
 GROUP BY 
-  asg.CodAsignatura,
-  asg.NombreAsig,
-  asg.Semestre
-ORDER BY 
-  Semestre DESC, 
+  ASG.CodAsignatura,
+  ASG.NombreAsig,
+  ASG.Semestre
+ORDER BY
+  Semestre DESC,
   cantidadAprobados DESC;
 
 -- ENUNCIADO 7:
@@ -106,25 +104,7 @@ ORDER BY
 -- que tengan más de 5 años de estudios. La salida debe mostrar : Id, nombre de
 -- estudiante, total de asignaturas cursadas, total de asignaturas reprobadas ordenados por total de asignaturas reprobadas en forma descendente.
 
-SELECT 
-  ESTUDIANTES.IdEstudiante, ESTUDIANTES.NombreEst,
-  COUNT(DISTINCT SECCIONES.CodAsignatura) asignaturas_cursadas,
-  COUNT(
-    DISTINCT CASE WHEN CALIFICACIONES.EstatusN = 'R' THEN SECCIONES.CodAsignatura ELSE NULL END
-  ) AsignaturasReprobadas
-FROM 
-  ESTUDIANTES
-  INNER JOIN CALIFICACIONES ON ESTUDIANTES.IdEstudiante = CALIFICACIONES.IdEstudiante
-  INNER JOIN SECCIONES ON CALIFICACIONES.NRC = SECCIONES.NRC
-GROUP BY 
-  ESTUDIANTES.IdEstudiante,
-  ESTUDIANTES.NombreEst
-HAVING (
-  COUNT(DISTINCT SECCIONES.Lapso) > 10
-  AND 
-  COUNT(DISTINCT CASE WHEN CALIFICACIONES.EstatusN = 'R' THEN SECCIONES.CodAsignatura ELSE NULL END) > 5
-)
-ORDER BY AsignaturasReprobadas DESC;
+-- [DESARROLLAR]
 
 -- ENUNCIADO 8:
 -- Actualizar el Estatus del profesor a “Retirado” y la fecha de egreso con “31-03-2023”,
@@ -132,18 +112,13 @@ ORDER BY AsignaturasReprobadas DESC;
 
 UPDATE PROFESORES
 SET 
-  StatusP = 'R', 
   FechaEgr = '31-03-2023'
+  StatusP = 'R',
 WHERE (
-  CedulaProfesor NOT IN (
-    SELECT DISTINCT CedulaProfesor
-    FROM SECCIONES
-    WHERE Lapso = '2023-25'
+  CedulaProf NOT IN (
+    SELECT DISTINCT CedulaProf
+    FROM SECCIONES WHERE Lapso = '202325';
   )
-  AND 
-  -- Esto se hace para que no afecte a aquellos profesores ya retirados 
-  -- que no tuvieron carga academica en el lapso 2023-25
-  FechaEgr IS NULL 
 );
 
 -- ENUNCIADO 9:
