@@ -71,7 +71,11 @@ VALUES (1,'28339421', 'Luis Hernandez', 'COD1', 'Unare 2', '5555555555', '2004-0
        (8,'28339458', 'Victor Ordaz', 'COD3', 'Olivos', '5555555555', '2002-03-03', 'Activo'),
        (9,'28332458', 'Victor freitas', 'COD3', 'Olivos', '5555555555', '2002-03-03', 'Activo'),
        (10,'28322258', 'Angel Guevara', 'COD3', 'Olivos', '5555555555', '2002-03-03', 'Activo'),
+<<<<<<< HEAD
        (11,'28322259', 'Angel Perez', 'COD3', 'Olivos', '5555555555', '2001-03-03', 'Activo');
+=======
+       (11,'28321158', 'Angel Perez', 'COD3', 'Olivos', '5555555555', '2001-03-03', 'Activo');
+>>>>>>> 43bb5da (actualizar)
 
 -----------
 

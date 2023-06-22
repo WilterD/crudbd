@@ -7,7 +7,7 @@ import bodyParser from 'body-parser';
 
 
 import dotenv from 'dotenv';
-import indexRoutes from "../src/routes/index.js";
+import indexRoutes from "./routes/routes.js";
 // Cargar las variables de entorno
 dotenv.config();
 

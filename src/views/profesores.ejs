@@ -35,29 +35,29 @@
                 </thead>
                 <tbody>
                 <% results.forEach(profesor => { %>
-                    <td><%= profesor.cedulap %></td>
+                    <tr> 
+                    <td><%= profesor.cedulaprof %></td>
                     <td><%= profesor.nombrep %></td>
                     <td><%= profesor.direccionp %></td>
-                    <td>tlf</td>
-                    <td>catg</td>
-                    <td>dedicacion</td>
-                    <td>fecha ing</td>
-                    <td>fecha egr</td>
-                    <td>status</td>
+                    <td><%= profesor.telefonop %></td>
+                    <td><%= profesor.categoria %></td>
+                    <td><%= profesor.dedicacion %></td>
+                    <td><%= profesor.fechaing %></td>
+                    <td><%= profesor.fechaegr %></td>
+                    <td><%= profesor.statusp %></td>
                     <td>
-                        <a href="/editar/cedulaProf" class="btn btn-outline-info"><i class='bx bxs-pencil fs-5'></i></a>
-                        <a onclick="confirmar('id','/borrarProfe')" class="btn btn-outline-danger">
+                        <a href="/editar/<%= profesor.cedulaprof %>" class="btn btn-outline-info"><i class='bx bxs-pencil fs-5'></i></a>
+                        <a onclick="confirmar('/borrarProfe','<%= profesor.cedulaprof %>')" class="btn btn-outline-danger">
                             <i class='bx bxs-trash'></i></a>
                     </td>
                     <% }); %>
+                    <tr> 
                 </tbody>
             </table>
         </div>
     </div>
 
-    <!-- Scripts de Bootstrap y jQuery -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    
 
     <!-- Script personalizado para inicializar DataTables -->
     
