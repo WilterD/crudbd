@@ -31,7 +31,7 @@ FROM
   PROFESORES p
   INNER JOIN SECCIONES s ON p.CedulaProf = s.CedulaProf
   INNER JOIN ASIGNATURA a ON s.CodAsignatura = a.CodAsignatura
-WHERE (a.NombreAsig = 'Base de Datos I' AND s.Lapso = '2023-25')
+WHERE (a.NombreAsig = 'Base de Datos I' AND s.Lapso = '202325')
 ORDER BY nombreP;
 
 -- (4)
