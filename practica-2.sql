@@ -12,8 +12,7 @@ SELECT
 FROM
   PROFESORES
 WHERE (
-  (dedicacion = 'MT' AND categoria = 'I')
-  AND
+  dedicacion = 'MT' AND categoria = 'I' AND
   (DATE_PART('year', CURRENT_DATE) - 1 = DATE_PART('year', FechaIng))
 )
 ORDER BY
@@ -31,7 +30,7 @@ FROM
   PROFESORES
   INNER JOIN SECCIONES ON PROFESORES.CedulaProf = SECCIONES.CedulaProf
   INNER JOIN ASIGNATURA ON SECCIONES.CodAsignatura = ASIGNATURA.CodAsignatura
-WHERE (ASIGNATURA.NombreAsig = 'Bases de datos' AND SECCIONES.Lapso = '202325')
+WHERE ASIGNATURA.NombreAsig = 'Bases de datos' AND SECCIONES.Lapso = '202325'
 ORDER BY nombreP;
 
 -- ENUNCIADO 4:
@@ -110,16 +109,8 @@ ORDER BY
 -- Actualizar el Estatus del profesor a “Retirado” y la fecha de egreso con “31-03-2023”,
 -- si no tiene carga académica (no tiene asignada al menos un NRC) en el lapso 202325.
 
-UPDATE PROFESORES
-SET 
-  FechaEgr = '31-03-2023'
-  StatusP = 'R',
-WHERE (
-  CedulaProf NOT IN (
-    SELECT DISTINCT CedulaProf
-    FROM SECCIONES WHERE Lapso = '202325';
-  )
-);
+UPDATE PROFESORES SET  FechaEgr = '31-03-2023', StatusP = 'R'
+WHERE CedulaProf NOT IN ( SELECT CedulaProf FROM SECCIONES WHERE Lapso = '202325' );
 
 -- ENUNCIADO 9:
 -- 9) Eliminar los Profesores cuya Estatus sea “Retirado” y la fecha de egreso sea mayor
