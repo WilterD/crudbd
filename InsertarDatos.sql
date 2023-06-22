@@ -1,20 +1,19 @@
 INSERT INTO PROFESORES (CedulaProf, nombreP, DireccionP, TelefonoP, Categoria, Dedicacion, FechaIng, FechaEgr, StatusP) 
 VALUES 
     ('1234567890', 'Juan PErez', 'Calle 123', '555-5555', 'A', 'TC', '2011-12-31', '2008-12-20', 'P'),
-    ('2345678901', 'María Gomez', 'Avenida 456', '555-5556', 'I', 'MT', '2010-01-15', '2009-12-19', 'A'),
+    ('2345678901', 'María Gomez', 'Avenida 456', '555-5556', 'I', 'MT', '2010-01-15', '2009-12-19', 'R'),
     ('3456789012', 'Pedro Torres', 'Calle 789', '555-5557', 'S', 'TC', '2009-06-30', '2012-12-11', 'R'),
-    ('4567890123', 'Ana Garcia', 'Avenida 012', '555-5558', 'I', 'MT', '2008-03-12', '2014-10-10', 'P'),
+    ('4567890123', 'Ana Garcia', 'Avenida 012', '555-5558', 'I', 'MT', '2008-03-12', '2011-10-10', 'R'),
     ('5678901034', 'Carlos Hernandez', 'Calle 345', '555-5559', 'G', 'TC', '2011-09-22', '2015-10-29', 'J'),
     ('6789012345', 'Luisa Martinez', 'Avenida 678', '555-5560', 'I', 'MT', '2012-11-18', '2024-12-16', 'P'),
     ('7890123456', 'Diego Sanchez', 'Calle 901', '555-5561', 'A', 'TV', '2013-05-01', '2024-12-15', 'A'),
-    ('8901234567', 'Laura Rodriguez', 'Avenida 234', '555-5562', 'G', 'TV', '2004-07-09', '2024-10-14', 'R'),
+    ('8901234567', 'Laura Rodriguez', 'Avenida 234', '555-5562', 'G', 'TV', '2004-07-09', '2005-10-14', 'R'),
     ('9011345678', 'Santiago Perez', 'Calle 567', '555-5563', 'T', 'TC', '2016-02-28', '2024-10-12', 'P'),
     ('0123456789', 'Carolina Gomez', 'Avenida 890', '555-5564', 'G', 'TV', '2015-10-17', '2024-12-25', 'J'),
     ('312399913', 'Carolina Paez', 'Avenida 890', '555-5564', 'I', 'MT', '2022-10-17', '2024-5-24', 'J'),
     ('312399914', 'Hector Sanchez', 'Avenida 290', '5534-5564', 'I', 'MT', '2022-9-17', '2024-4-22', 'A'),
     ('312393943', 'Maria Sanchez', 'Avenida 290', '5534-5564', 'I', 'MT', '2022-8-17', '2024-2-24', 'A');
 
-   
 -----------
 
 INSERT INTO ASIGNATURA (CodAsignatura, NombreAsig, UC, Semestre, Taxonomia, StatusA)
@@ -123,3 +122,4 @@ INSERT INTO PAGOS_REALIZADOS (NumFactura, IdEstudiante, FechaEmision, TipoPago, 
 VALUES (1, 1, '2023-06-15', 'T', 'B', 100),
        (2, 2, '2023-06-16', 'J', 'D', 150),
        (3, 3, '2023-06-17', 'D', 'P', 75);
+       

@@ -147,53 +147,47 @@ WHERE (
 );
 
 -- ENUNCIADO 9:
--- Eliminar los Profesores cuya Estatus sea “Retirado” y la fecha de egreso sea mayor a 10 años, 
--- manteniendo la consistencia de la base de datos, y registrando todos los datos contenidos 
--- en la tabla Profesores, en un archivo histórico denominado HistoricoProfesor.   
+-- 9) Eliminar los Profesores cuya Estatus sea “Retirado” y la fecha de egreso sea mayor
+-- a 10 años, manteniendo la consistencia de la base de datos, y registrando todos los
+-- datos contenidos en la tabla Profesores, en un archivo histórico denominado HistoricoProfesor.
 
-BEGIN;
+BEGIN:
 
-  CREATE TABLE HISTORICOPROFESOR (
-    CedulaProfesor DOM_CEDULA PRIMARY KEY,
-    NombreP DOM_NOMBRE,
-    DireccionP VARCHAR(32) NOT NULL,
-    TelefonoP DOM_TELEFONO,
-    FechaIng DOM_FECHAS NOT NULL,
-    FechaEgr DOM_FECHAS NOT NULL,
-    CONSTRAINT CHK_FechaEgr CHECK (FechaEgr > FechaIng)
+  -- INSERTAR PROFESOR BORRADO PARA SUSTITUIR A LOS PROFESORES QUE SALGAN DE LA BD
+  INSERT INTO PROFESORES (CedulaProf, nombreP, DireccionP, TelefonoP, Categoria, Dedicacion, FechaIng, FechaEgr, StatusP)
+  VALUES ('000000000', 'Profesor Borrado', '', '', 'T', 'TV', '1980-1-1', NOW() - INTERVAL '10 YEARS', 'R');
+
+  -- Crea la tabla historico profesor
+  CREATE TABLE HistoricoProfesor (
+      CedulaProf public.dom_cedula NOT NULL,
+      nombreP public.dom_nombre NOT NULL,
+      DireccionP CHAR(255) NOT NULL,
+      TelefonoP public.dom_telefono,
+      Categoria public.enum_categoria NOT NULL,
+      Dedicacion public.enum_dedicacion NOT NULL,
+      FechaIng public.dom_fechas NOT NULL,
+      FechaEgr public.dom_fechas NOT NULL,
+      StatusP public.enum_status_p NOT NULL,
+      ----------------- Alteraciones
+      PRIMARY KEY(CedulaProf),
+      CONSTRAINT CHK_Historico_Categoria CHECK (Categoria IN('A', 'I', 'G', 'S', 'T')),
+      CONSTRAINT CHK_Historico_Dedicacion CHECK (Dedicacion IN('TC', 'MT', 'TV')),
+      CONSTRAINT CHK_Historico_StatusP CHECK (StatusP IN('A','R','P','J'))
   );
 
-  INSERT INTO HISTORICOPROFESOR(
-    CedulaProf,
-    nombreP,
-    DireccionP,
-    TelefonoP,
-    FechaIng,
-    FechaEgr
-  )(
+  -- Mete todo lo de profesores que cumpla los parametros en historico de profesor
+  INSERT INTO HistoricoProfesor SELECT * FROM PROFESORES WHERE StatusP = 'R' AND FechaEgr < NOW() - INTERVAL '10 YEARS' AND PROFESORES.CedulaProf != '000000000';
 
-  SELECT 
-    CedulaProf,
-    nombreP,
-    DireccionP,
-    TelefonoP,
-    FechaIng,
-    FechaEgr
-  FROM 
-    PROFESORES
-  WHERE(
-    StatusP = 'R' 
-    AND 
-    EXTRACT(YEAR FROM CURRENT_DATE) - EXTRACT(YEAR FROM fecha_egreso) > 10
-    AND 
-    -- Se hace esta validación extra para asegurar que no se vaya a ingresar un
-    -- profesor que ya exista en HISTORICOPROFESOR
-    CedulaProf NOT IN (
-      SELECT CedulaProf 
-      FROM 
-        HISTORICOPROFESOR
-    )
-  )
-);
+  -- En seccoines pone el profesor borrado en las secciones que no tengan profesor
+  UPDATE SECCIONES
+  SET CedulaProf = '000000000'
+  FROM PROFESORES
+  WHERE SECCIONES.CedulaProf = PROFESORES.CedulaProf
+    AND PROFESORES.StatusP = 'R'
+    AND PROFESORES.FechaEgr < NOW() - INTERVAL '10 YEARS'
+    AND SECCIONES.CedulaProf != '000000000';
+
+  -- Elimina los profesores que cumplan los parametros
+  DELETE FROM PROFESORES WHERE StatusP = 'R' AND FechaEgr < NOW() - INTERVAL '10 YEARS' AND PROFESORES.CedulaProf != '000000000';
 
 COMMIT;
