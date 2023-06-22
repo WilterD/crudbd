@@ -19,7 +19,7 @@
             </div>
 
             <h1>Tabla de profesores</h1>
-            <table id="tabla-profesores" class="table table-striped table-bordered">
+            <table id="miTabla" class="table table-striped table-bordered">
                 <thead>
                     <tr>
                         <th>Cédula</th>
@@ -34,10 +34,10 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Aquí se insertarán los datos de la tabla -->
-                    <td>CEDULA</td>
-                    <td>nombre</td>
-                    <td>direccion</td>
+                <% results.forEach(profesor => { %>
+                    <td><%= profesor.cedulap %></td>
+                    <td><%= profesor.nombrep %></td>
+                    <td><%= profesor.direccionp %></td>
                     <td>tlf</td>
                     <td>catg</td>
                     <td>dedicacion</td>
@@ -49,6 +49,7 @@
                         <a onclick="confirmar('id','/borrarProfe')" class="btn btn-outline-danger">
                             <i class='bx bxs-trash'></i></a>
                     </td>
+                    <% }); %>
                 </tbody>
             </table>
         </div>
@@ -59,30 +60,8 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
     <!-- Script personalizado para inicializar DataTables -->
-    <script>
-
-
-
-
-        function confirmar(id, ruta) {
-            Swal.fire({
-                title: '¿Confirma eliminar el registro seleccionado?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#6c757d',
-                confirmButtonText: 'Confirmar',
-                cancelButtonText: 'Cancelar'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.location = ruta + '/' + id;
-                }
-            });
-        };
-    </script>
-
-
+    
+    <%- include('partials/scripts.ejs') %>
 
 </body>
-
 </html>

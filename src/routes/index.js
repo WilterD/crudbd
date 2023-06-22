@@ -18,8 +18,17 @@ router.get('/editar', (req, res) => {
       if (error) {
         throw error;
       }
-      console.log(results)
       res.render('crear', { results: results.rows });
+    });
+  });
+
+  router.get('/profesores', (req, res) => {
+    const sql = 'SELECT * FROM profesores';
+    conexion.query(sql, (error, results) => {
+      if (error) {
+        throw error;
+      }
+      res.render('profesores', { results: results.rows });
     });
   });
   
@@ -29,11 +38,10 @@ router.get('/editar', (req, res) => {
 
 router.post('/saveProfesor', (req, res) => {
     const data = req.body;
-    mycrud.crearRegistroProfesor(data)
-      .then(result => {
+    
+    mycrud.crearRegistroProfesor(data).then(result => {
         res.json(result);
-      })
-      .catch(error => {
+      }).catch(error => {
         console.error(error);
         res.status(500).send('Error interno del servidor');
       });
