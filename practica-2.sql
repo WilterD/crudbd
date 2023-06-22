@@ -111,7 +111,7 @@ SELECT
   COUNT(DISTINCT sec.CodAsignatura) asignaturas_cursadas,
   COUNT(
     DISTINCT CASE WHEN cal.EstatusN = 'R' THEN sec.CodAsignatura ELSE NULL END
-  ) asignaturas_reprobadas
+  ) AsignaturasReprobadas
 FROM 
   ESTUDIANTES est
   INNER JOIN calificaciones cal ON est.IdEstudiante = cal.IdEstudiante
@@ -124,7 +124,7 @@ HAVING (
   AND 
   COUNT(DISTINCT CASE WHEN cal.EstatusN = 'R' THEN sec.CodAsignatura ELSE NULL END) > 5
 )
-ORDER BY asignaturas_reprobadas DESC;
+ORDER BY AsignaturasReprobadas DESC;
 
 -- ENUNCIADO 8:
 -- Actualizar el Estatus del profesor a “Retirado” y la fecha de egreso con “31-03-2023”,
