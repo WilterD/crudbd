@@ -49,8 +49,8 @@ SELECT
   esc.CodEscuela,
   esc.NombreEsc,
   COUNT(CASE WHEN est.StatusEst IN ('Activo') THEN 1 END) activos, 
-  COUNT(CASE WHEN est.StatusEst IN ('No inscrito') THEN 1 END) noInscritos,
   COUNT(CASE WHEN est.StatusEst IN ('Retirado') THEN 1 END) retirados,
+  COUNT(CASE WHEN est.StatusEst IN ('No inscrito') THEN 1 END) noInscritos,
   COUNT(CASE WHEN est.StatusEst IN ('Activo', 'No inscrito', 'Retirado') THEN 1 END) total
 FROM 
   ESCUELA esc
